@@ -46,14 +46,27 @@ class Board extends Component {
         console.log(numrows);
         console.log(numcols);
         return (
-            <div>
-                <p>Does it work</p>
-                <table>
-                    <tbody>
-                        {new Array(numrows).map(x => <tr>{new Array(numcols).map(y => <Cell />)}</tr>)}
-                    </tbody>
-                </table>
-            </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <Cell isLit={true} />
+                        <Cell isLit={false} />
+                        <Cell isLit={true} />
+                    </tr>
+
+                    <tr>
+                        <Cell isLit={true} />
+                        <Cell isLit={false} />
+                        <Cell isLit={true} />
+                    </tr>
+
+                    <tr>
+                        <Cell isLit={true} />
+                        <Cell isLit={false} />
+                        <Cell isLit={true} />
+                    </tr>
+                </tbody>
+            </table>
         )
     }
 }
