@@ -6,24 +6,16 @@ class Board extends Component {
     static defaultProps = {
         nrows: 5,
         ncols: 5,
-        changeLightStartsOn: 0.25
     };
     
-
     constructor(props) {
         super(props);
-        // this.props = {
-        //     nrows: 9,
-        //     ncols: 9,
-        //     changeLightStartsOn: 0
-        // };
         this.state = {
             hasWon: false,
             board: this.createBoard()
         };
 
         this.createBoard = this.createBoard.bind(this);
-        this.flipCellsAround = this.flipCellsAround.bind(this);
     }
 
     createBoard() {
@@ -40,6 +32,7 @@ class Board extends Component {
     }
 
     flipCellsAround(coord) {
+        console.log('flipping', coord);
         let { ncols, nrows } = this.props;
         let board = this.state.board;
         let [y, x] = coord.split("-").map(Number);
@@ -50,14 +43,20 @@ class Board extends Component {
                 board[y][x] = !board[y][x];
             }
         }
+
+        flipCell(y, x);
+        flipCell(y, x-1);
+        flipCell(y, x+1);
+        flipCell(y-1, x);
+        flipCell(y+1, x);
+
+        this.setState((prevSt) => ({
+            board: board
+        }))
     }
     render() {
-        
-        console.log(this.state.board);
-        const tRow = (x) => {x.map(lit => {<Cell isLit={lit} />})};
-        return (
+        return ( 
             <table>
-
                 <tbody>
                     {
                         this.state.board.map((each, i) => 
@@ -65,14 +64,15 @@ class Board extends Component {
                                 <Cell 
                                     isLit={lit} 
                                     key={`${i}-${j}`}
-                                    flipCellsAroundMe={this.flipCellsAround}
+                                    akey={`${i}-${j}`}
+                                    flipCellsAroundMe={() => this.flipCellsAround(`${i}-${j}`)}
                                 />)}
                             </tr>
                         )
                     }
                 </tbody>
             </table>
-        )
+      )
     }
 }
 
