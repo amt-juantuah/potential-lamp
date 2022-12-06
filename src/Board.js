@@ -3,68 +3,73 @@ import Cell from './cell.js';
 
 
 class Board extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.props = {
-    //         nrows: 9,
-    //         ncols: 9,
-    //         changeLightStartsOn: 0
-    //     };
-    //     this.state = {
-    //         hasWon: false,
-    //         board: new Array(this.props.ncols).fill(new Array(this.props.nrows).fill(false))
-    //     }
-    // }
-
     static defaultProps = {
-        nrows: 9,
-        ncols: 9,
-        changeLightStartsOn: 0
+        nrows: 5,
+        ncols: 5,
+        changeLightStartsOn: 0.25
     };
     
+
+    constructor(props) {
+        super(props);
+        // this.props = {
+        //     nrows: 9,
+        //     ncols: 9,
+        //     changeLightStartsOn: 0
+        // };
+        this.state = {
+            hasWon: false,
+            board: this.createBoard()
+        };
+
+        this.createBoard = this.createBoard.bind(this);
+        this.flipCellsAround = this.flipCellsAround.bind(this);
+    }
+
     createBoard() {
         let board = [];
+
+        for (let i = 0; i < this.props.ncols; i++) {
+            let tempArray = [];
+            for (let j = 0; j < this.props.nrows; j++) {
+                tempArray.push([false, true][Math.floor(Math.random() * 2)]);
+            }
+            board.push(tempArray);
+        }
         return board;
     }
 
-    // flipCellsAround(coord) {
-    //     let { ncols, nrows } = this.props;
-    //     let board = this.state.board;
-    //     let [y, x] = coord.split("-").map(Number);
+    flipCellsAround(coord) {
+        let { ncols, nrows } = this.props;
+        let board = this.state.board;
+        let [y, x] = coord.split("-").map(Number);
 
-    //     function flipCell(y, x) {
-    //         // flip coord if its on board
-    //         if (x >= 0 && x < ncols && y >= 0 && y < nrows) {
-    //             board[y][x] = !board[y][x];
-    //         }
-    //     }
-
-    // }
+        function flipCell(y, x) {
+            // flip coord if its on board
+            if (x >= 0 && x < ncols && y >= 0 && y < nrows) {
+                board[y][x] = !board[y][x];
+            }
+        }
+    }
     render() {
-        const numrows = this.props.nrows;
-        const numcols = this.props.ncols;
-        console.log(numrows);
-        console.log(numcols);
+        
+        console.log(this.state.board);
+        const tRow = (x) => {x.map(lit => {<Cell isLit={lit} />})};
         return (
             <table>
+
                 <tbody>
-                    <tr>
-                        <Cell isLit={true} />
-                        <Cell isLit={false} />
-                        <Cell isLit={true} />
-                    </tr>
-
-                    <tr>
-                        <Cell isLit={true} />
-                        <Cell isLit={false} />
-                        <Cell isLit={true} />
-                    </tr>
-
-                    <tr>
-                        <Cell isLit={true} />
-                        <Cell isLit={false} />
-                        <Cell isLit={true} />
-                    </tr>
+                    {
+                        this.state.board.map((each, i) => 
+                            <tr key={i}>{each.map((lit, j) => 
+                                <Cell 
+                                    isLit={lit} 
+                                    key={`${i}-${j}`}
+                                    flipCellsAroundMe={this.flipCellsAround}
+                                />)}
+                            </tr>
+                        )
+                    }
                 </tbody>
             </table>
         )
