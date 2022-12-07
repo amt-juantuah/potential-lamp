@@ -6,8 +6,9 @@ function App() {
   return (
     <div className="App">
       <div class="name-container">
-        <div class="neon">Neon </div>
-        <div class="flux">Flux </div>
+        <div class="neon"> Off </div>
+        <div class="flux">The </div>
+        <div class="neon"> Lights </div>
       </div>
       <Board />
     </div>
