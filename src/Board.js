@@ -50,11 +50,18 @@ class Board extends Component {
         flipCell(y-1, x);
         flipCell(y+1, x);
 
+        let hasWon = board.every(row => row.every(cell => !cell));
+
         this.setState((prevSt) => ({
-            board: board
+            board: board,
+            hasWon: hasWon
         }))
     }
     render() {
+
+        if (this.state.hasWon) {
+            return (<h1 className="neon">Congratulations</h1>)
+        }
         return ( 
             <table>
                 <tbody>

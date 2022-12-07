@@ -20,7 +20,7 @@ class Cell extends Component {
                 className={classes} 
                 onClick={this.handleClick}
             >
-                {this.props.isLit ? "☀️" : "🌒"}
+                {this.props.isLit ? "" : "🌒"}
             </td>
         )
     }
